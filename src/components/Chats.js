@@ -2,15 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "./../firebase";
 import { AuthContext } from "../context/Auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { chatsActin } from "../store/auth";
 import { ChatsContext } from "./../context/ChatContext";
 
 const Chats = () => {
   const [chats, setChats] = useState([]);
-
   const { currentUser } = useContext(AuthContext);
-  const { dispatch } = useContext(ChatsContext);
+  // const { dispatch } = useContext(ChatsContext);
+  const dispat = useDispatch();
 
   useEffect(() => {
     const getChats = () => {
@@ -26,14 +26,16 @@ const Chats = () => {
   }, [currentUser.uid]);
 
   const handleSelect = (u) => {
-    dispatch({ type: "CHANGE_USER", payload: u });
+    // dispatch({ type: "CHANGE_USER", payload: u });
+    dispat(chatsActin?.user(u));
+    dispat(chatsActin.chatId(currentUser?.uid > u?.uid ? currentUser?.uid + u?.uid : u?.uid + currentUser?.uid));
   };
 
   return (
     <div className="chats">
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
-        .map((chat) => (
+        ?.map((chat) => (
           <div className="userChat" key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
             <img src={chat[1].userInfo?.photoURL} alt="" />
             <div className="userChatInfo">

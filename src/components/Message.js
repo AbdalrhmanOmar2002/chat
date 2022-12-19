@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { AuthContext } from "./../context/Auth";
 import { ChatsContext } from "./../context/ChatContext";
+import { useSelector } from "react-redux";
 
 const Message = ({ message }) => {
   const { currentUser } = useContext(AuthContext);
-  const { data } = useContext(ChatsContext);
-  const ref = useRef();
+  const data = useSelector((state) => state.auth);
+  // console.log(data);
+    const ref = useRef();
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
-  console.log(message);
   return (
     <div ref={ref} className={`message ${message.senderId === currentUser.uid && "owner"}`}>
       <div className="messageInfo">

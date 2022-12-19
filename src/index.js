@@ -9,11 +9,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <AuthContextProvider>
-      <ChatsContextProvider>
+      {/* <ChatsContextProvider> */}
         <React.StrictMode>
           <App />
         </React.StrictMode>
-      </ChatsContextProvider>
+      {/* </ChatsContextProvider> */}
     </AuthContextProvider>
   </Provider>
 );
